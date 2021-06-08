@@ -3,26 +3,26 @@ const fs = require("fs");
 const path = require("path");
 const express = require("express");
 const app = express();
-const allNotes = require(".db/db.json");
+// const allNotes = require(".db/db.json");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "/assets")));
 
 app.get("/api/notes", (req, res) => {
   res.json(allNotes.slice(1));
 });
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.get("/notes", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/notes.html"));
+  res.sendFile(path.join(__dirname, "notes.html"));
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 function createNewNote(body, notesArray){
@@ -45,9 +45,21 @@ function createNewNote(body, notesArray){
 }
 
 app.post('/api/notes', (req, res) => {
-    const newNote = createNewNote(req.body, allNotes);
-    res.json(newNote);
-});
+    fs.readFile("./db/db.json", (error, data) => {
+        if (error) {
+            console.error(error)
+        } else {
+            let notes = JSON.parse(data);
+            console.log(notes);
+            let newNote = req.body;
+            newNote["id"] = uniqid();
+            notes.push(newNote);
+            fs.writeFile("db/db.json", JSON.stringify(notes), (err) =>
+                err ? console.error(err) : console.log('New Note has been stored in database (db)'))
+            res.json(newNote);
+        }
+    })
+})
 
 function deleteNote(id, notesArray) {
     for (let i = 0; i < notesArray.length; i++) {
@@ -71,5 +83,5 @@ app.delete('/api/notes/:id', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log('API server on port ${PORT}!');
+    console.log(`API server on port ${PORT}`);
 });
