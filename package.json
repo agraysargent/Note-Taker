@@ -13,5 +13,14 @@
     "express": "^4.17.1",
     "uniqid": "^5.3.0",
     "uuid": "^8.3.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agraysargent/Note-Taker.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/agraysargent/Note-Taker/issues"
+  },
+"homepage": "https://github.com/agraysargent/Note-Taker#readme"
 }
