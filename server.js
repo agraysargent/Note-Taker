@@ -73,26 +73,38 @@ app.post("/api/notes", (req, res) => {
   });
 });
 
-// function deleteNote(id, notesArray) {
-//   for (let i = 0; i < notesArray.length; i++) {
-//     let note = notesArray[i];
+function deleteNote(id, notesArray) {
+const newNotes = notesArray.filter((note)=>{
+return note.id !==id; 
+})
+console.log(newNotes);
 
-//     if (note.id == id) {
-//       notesArray.splice(i, 1);
-//       fs.writeFileSync(
-//         path.join(__dirname, "./db/db.json"),
-//         JSON.stringify(notesArray, null, 2)
-//       );
+  for (let i = 0; i < notesArray.length; i++) {
+    let note = notesArray[i];
 
-//       break;
-//     }
-//   }
-// }
+    if (note.id == id) {
+      notesArray.splice(i, 1);
+      fs.writeFileSync(
+        path.join(__dirname, "db/db.json"),
+        JSON.stringify(notesArray, null, 2)
+      );
 
-// app.delete("/api/notes/:id", (req, res) => {
-//   deleteNote(req.params.id, allNotes);
-//   res.json(true);
-// });
+      // break;
+    }
+  }
+}
+
+app.delete("/api/notes/:id", (req, res) => {
+  console.log("deleting")
+  fs.readFile("./db/db.json", "utf8", (error, data) => {
+    if (error) {
+      console.error(error);
+    } else {
+      deleteNote(req.params.id, JSON.parse(data));
+  res.json({ok:true});
+    }
+  })
+});
 
 app.listen(PORT, () => {
   console.log(`API server on port ${PORT}`);
