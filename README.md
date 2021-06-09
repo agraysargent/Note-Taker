@@ -1,6 +1,6 @@
 # Note-Taker
 
-This assignment required us to create a Note Taker application utilizing javascript, express.js and finalizing the application via Heroku.
+This assignment required us to create a Note Taker application utilizing javascript, express.js, and node.js. Finalized application via Heroku.
 
 # User Story
 
