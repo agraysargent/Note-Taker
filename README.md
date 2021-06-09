@@ -38,8 +38,10 @@ Angelica Sargent
 
 # Screenshot
 
+![Screenshot](assets/images/notetaker1.png)
 
+![Screenshot](assets/images/notetaker2.png)
 
 # Application
 
-Check out the application ![here]()
+Check out the application [here!](https://dashboard.heroku.com/apps/blooming-spire-30859)
